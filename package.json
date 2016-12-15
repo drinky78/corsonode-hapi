@@ -6,7 +6,7 @@
   "scripts": {
     "start": "./assets.js",
     "lint": "standard|snazzy",
-    "test": "lab"
+    "test": "rm -rf ./assets && lab"
   },
   "precommit": [
     "lint",
