@@ -28,10 +28,11 @@ lab.experiment('Hello', () => {
   })
 
   lab.test('Testing for "list"', (done) => {
-    const options = { method: 'GET', url: '/list' }
+    const options = { method: 'GET', url: '/username/assets' }
     server.inject(options, function (response) {
-      const result = response.result
 
+      const result = response.result
+      code.expect(response.statusCode).to.be.equal(200)
       code.expect(result).to.be.an.array().and.to.equal([])
       done()
     })
@@ -39,27 +40,28 @@ lab.experiment('Hello', () => {
 
   lab.test('Testing for "insert"', (done) => {
 
-    const name = "ksufgyisuhd";
+    const username = "thisisme";
+    const asset = "uberasset";
     const state = "operational";
-    const options = { method: 'GET', url: '/insert/'+name+'/'+state }
+    const options = { method: 'POST', url: `/${username}/assets/${asset}/${state}` }
 
     server.inject(options, function (response) {
 
-      console.log(response.result)
-
       const result = response.result
 
+      code.expect(response.statusCode).to.be.equal(200)
       code.expect(result.length).to.be.at.least(0)
-      code.expect(result).contain(name)
+      code.expect(result).contain(asset)
       done()
     })
   })
 
-  lab.test('Testing for "insert" with empty name', (done) => {
+  lab.test('Testing for "insert" with empty asset name', (done) => {
 
-    const name = '';
+    const username = "thisisme";
+    const asset = "";
     const state = "operational";
-    const options = { method: 'GET', url: '/insert/'+name+'/'+state }
+    const options = { method: 'POST', url: `/${username}/assets/${asset}/${state}` }
 
     server.inject(options, function (response) {
 
@@ -70,13 +72,14 @@ lab.experiment('Hello', () => {
 
   lab.test('Testing for "insert" with wrong state name', (done) => {
 
-    const name = '12345';
+    const username = "thisisme";
+    const asset = "";
     const state = "wrongstate";
-    const options = { method: 'GET', url: '/insert/'+name+'/'+state }
+    const options = { method: 'POST', url: `/${username}/assets/${asset}/${state}` }
 
     server.inject(options, function (response) {
 
-      code.expect(response.statusCode).to.be.equal(400)
+      code.expect(response.statusCode).to.be.equal(404)
       done()
     })
   })
