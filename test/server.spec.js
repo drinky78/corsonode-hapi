@@ -84,6 +84,24 @@ lab.experiment('Hello', () => {
     })
   })
 
+  lab.test('Testing for "update"', (done) => {
+
+    const username = "thisisme";
+    const asset = "uberasset";
+    const state = "operational";
+    const options = { method: 'PUT', url: `/${username}/assets/${asset}/${state}` }
+
+    server.inject(options, function (response) {
+
+      const result = response.result
+
+      code.expect(response.statusCode).to.be.equal(200)
+      code.expect(result.length).to.be.at.least(0)
+      code.expect(result).contain(asset)
+      done()
+    })
+  })
+
 
 
 })
